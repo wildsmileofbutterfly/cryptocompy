@@ -7,20 +7,20 @@ from .helper_functions import build_url, load_data
 
 def get_coin_list(coins='all'):
 	"""
-	Get general information about all the coins available on 
+	Get general information about all the coins available on
 	cryptocompare.com.
-	
+
 	Args:
 		coins: Default value of 'all' returns information about all the coins
-			available on the site. Otherwise a single string or list of coin 
+			available on the site. Otherwise a single string or list of coin
 			symbols can be used.
 
 	Returns:
-		The function returns a dictionairy containing individual dictionairies 
-		for the coins specified by the input. The key of the top dictionary 
-		corresponds to the coin symbol. Each coin dictionary has the following 
+		The function returns a dictionairy containing individual dictionairies
+		for the coins specified by the input. The key of the top dictionary
+		corresponds to the coin symbol. Each coin dictionary has the following
 		structure:
-		
+
 			{coin_symbol1: {'Algorithm' : ...,
 	                'CoinName': ...,
 	                'FullName': ...,
@@ -37,7 +37,7 @@ def get_coin_list(coins='all'):
 	 		coin_symbol2: {...},
  			...}
 	"""
-	
+
 	# convert single coins input to single element lists
 	if not isinstance(coins, list) and coins != 'all':
 		coins = [coins]
@@ -55,16 +55,16 @@ def get_coin_list(coins='all'):
 
 def get_coin_snapshot(fsym, tsym):
 	"""
-	Get blockchain information, aggregated data as well as data for the 
+	Get blockchain information, aggregated data as well as data for the
 	individual exchanges available for the specified currency pair.
 
 	Args:
 		fsym: FROM symbol.
 		tsym: TO symbol.
-	
+
 	Returns:
-		The function returns a dictionairy containing blockain as well as 
-		trading information from the different exchanges were the specified 
+		The function returns a dictionairy containing blockain as well as
+		trading information from the different exchanges were the specified
 		currency pair is available.
 
 		{'AggregatedData': dict,
@@ -96,6 +96,56 @@ def get_coin_snapshot(fsym, tsym):
 
 	# load data
 	url = build_url('coinsnapshot', fsym=fsym, tsym=tsym)
+	data = load_data(url)['Data']
+
+	return data
+
+def get_coin_snapshot_full_by_id(id):
+	"""
+		Get the general, subs and the aggregated prices for all pairs available
+
+		Args:
+			id: inner id of the coin
+
+		Returns:
+			The function returns a data about a coin.
+
+			{'General': dict,
+	 		 'Subs': ...,
+			 'StreamerDataRaw': ...,}
+
+			dict = {'H1Text': ...,
+			        'ImageUrl': ...,
+			        'DangerTop': ...,
+			        'WarningTop': ...,
+			        'InfoTop': ...,
+			        'Symbol': ...,
+			        'BaseUrl': ...,
+			        'Name': ...,
+			        'Description': ...,
+			        'Features': ...,
+			        'Technology': ...,
+			        'TotalCoinSupply': ...,
+			        'Algorythm': ...,
+			        'ProofType': ...,
+			        'StartDate': ...,
+			        'Twitter': ...,
+			        'TwitterWidgetId': ...,
+			        'Website': ...,
+			        'StartDate': ...,
+			        'LastBlockExplorerUpdateTS': ...,
+					'DifficultyAdjustment': ...,
+					'BlockRewardReduction': ...,
+					'BlockNumber': ...,
+					'BlockTime': ...,
+					'NetHashesPerSecond': ...,
+					'TotalCoinsMined': ...,
+					'PreviousTotalCoinsMined': ...,
+					'BlockReward': ...
+			        'VOLUME24HOURTO': ...}
+	"""
+	# load data
+	url = build_url('coinsnapshotfullbyid', id=id)
 	data = load_data(url)['Data']
 
 	return data

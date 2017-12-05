@@ -10,7 +10,7 @@ def build_url(func, **kwargs):
 	"""
 	"""
 
-	if func in ['coinlist', 'coinsnapshot', 'miningcontracts', 
+	if func in ['coinlist', 'coinsnapshot', 'coinsnapshotfullbyid', 'miningcontracts',
 				'miningequipment']:
 		url = "https://www.cryptocompare.com/api/data/{}?".format(func)
 	elif func in ['exchanges', 'volumes', 'pairs']:
@@ -32,6 +32,8 @@ def build_url(func, **kwargs):
 			url_parts.append("tsym={}".format(value))
 		elif key == 'tsyms':
 			url_parts.append("tsyms={}".format(",".join(value)))
+		elif key == 'id':
+			url_parts.append("id={}".format(value))
 		
 		# exchange
 		elif key == 'e' and value != 'all':
